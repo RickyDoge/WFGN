@@ -56,7 +56,7 @@ def tSNE_visualize(gpu_accelerate=True):
     model = TwoTowerModel(model_dir=None).to(device)
     transform = transforms.Compose([transforms.Resize(size=(256, 256)),
                                     transforms.ToTensor()])
-    model.load_state_dict(torch.load(r'D:\Project\PyCharmProjects\ImagePlay\weight\tower.pth'))
+    model.load_state_dict(torch.load(r'D:\Project\PyCharmProjects\WFGN\weight\tower.pth'))
     pos_dir = r'D:\Training Dataset\FurGenTMP\positive'
     neg_dir = r'D:\Training Dataset\FurGenTMP\negative'
 
@@ -72,7 +72,7 @@ def tSNE_visualize(gpu_accelerate=True):
         positive_mean = torch.tensor(np.array(embeddings))
         positive_mean = torch.mean(positive_mean, dim=0)
         print(positive_mean.shape)
-        torch.save(positive_mean, r'D:\Project\PyCharmProjects\ImagePlay\weight\positive_mean.pth')
+        torch.save(positive_mean, r'D:\Project\PyCharmProjects\WFGN\weight\positive_mean.pth')
 
         for img in tqdm(os.listdir(neg_dir)):
             image_tensor = transform(Image.open(os.path.join(neg_dir, img)).convert('RGB')).unsqueeze(dim=0).to(device)

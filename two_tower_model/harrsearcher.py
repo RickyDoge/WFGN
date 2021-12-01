@@ -18,6 +18,6 @@ class HarrAdaBoostModel(object):
         cv2.waitKey(0)
 
 if __name__ == '__main__':
-    model = HarrAdaBoostModel(r'D:\Project\PyCharmProjects\ImagePlay\weight\haarcascade_frontalface_default.xml')
+    model = HarrAdaBoostModel(r'D:\Project\PyCharmProjects\WFGN\weight\haarcascade_frontalface_default.xml')
     model.show(r'D:\Training Dataset\FurGen\2\other (35).jpeg')
 
