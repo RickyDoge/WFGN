@@ -104,7 +104,7 @@ class ObjectDetectionStream():
         with torch.no_grad():
             for i in tqdm(range(len(self.dataset))):
                 img_loader = self.dataset[i]
-                target, target_fdir = None, ''
+                target_coor, target_fdir = None, ''
 
                 heap = []  # 小根堆
                 max_c = self.threshold
@@ -112,20 +112,26 @@ class ObjectDetectionStream():
                     img = self.transform(bbox).to(self.device)
                     embedding = self.model(img.unsqueeze(dim=0)).squeeze(dim=0)
                     confidence = torch.dot(embedding, self.positive_mean).item()
-                    if confidence > max_c:
-                        # max_c = confidence
-                        target, target_fdir = bbox, fdir
+                    if confidence > self.threshold:
+                        target_fdir = fdir
                         if len(heap) < k:
                             heapq.heappush(heap, (confidence, coor))
                         else:
                             heapq.heappushpop(heap, (confidence, coor))
+                    if confidence > max_c:
+                        max_c = confidence
+                        target_coor = coor
 
                 if target_fdir != '':
+                    # Windows: \\, Linux: /
+                    heap.sort(reverse=True)
                     _, (x, y, w, h) = self.merge_bbox(heap)
                     ori_img = self.to_tensor(Image.open(fdir).convert('RGB'))
-                    ori_img = ori_img[:, max(0, y-h//3): int(y + h*6/5), max(0, x-w//3): int(x + w*4/3)]  # 微调
-                    # Linux等系统下，用/。Windows系统下，用\\
-                    self.to_PIL(ori_img).save(os.path.join(out_dir, target_fdir.split('\\')[-1]))
+                    ori_img1 = ori_img[:, max(0, y-h//3): int(y + h*6/5), max(0, x-w//3): int(x + w*4/3)]  # 微调
+                    self.to_PIL(ori_img1).save(os.path.join(out_dir, target_fdir.split('\\')[-1]))
+                    x, y, w, h = target_coor
+                    ori_img2 = ori_img[:, max(0, y-h//3): int(y + h*6/5), max(0, x-w//3): int(x + w*4/3)]  # 原图微调
+                    self.to_PIL(ori_img2).save(os.path.join(out_dir, target_fdir.split('\\')[-1].replace('.', '-ori.')))
 
 
 if __name__ == '__main__':

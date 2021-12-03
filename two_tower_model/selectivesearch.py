@@ -325,6 +325,8 @@ def show_bbox(img):
             continue
         # distorted rects
         x, y, w, h = r['rect']
+        if w == 0 or h == 0:
+            continue
         if w / h > 2 or h / w > 2:
             continue
         candidates.add(r['rect'])
@@ -356,6 +358,8 @@ def extract_bbox(img):  # img width should == 1200
             continue
         # distorted rects
         x, y, w, h = r['rect']
+        if w == 0 or h == 0:
+            continue
         if w / h > 2 or h / w > 2:
             continue
         candidates.add(r['rect'])
