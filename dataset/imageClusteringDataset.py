@@ -29,5 +29,6 @@ class ImageClusteringDataset(tud.Dataset):
             comparison = self.transform(Image.open(self.negative_samples[idx2]).convert('RGB')).unsqueeze(dim=-1)
             label = -1
 
-        pivot = self.transform(Image.open(self.positive_samples[idx % len(self.positive_samples)]).convert('RGB')).unsqueeze(dim=-1)
+        pivot = self.transform(
+            Image.open(self.positive_samples[idx % len(self.positive_samples)]).convert('RGB')).unsqueeze(dim=-1)
         return torch.concat([pivot, comparison], dim=-1), label

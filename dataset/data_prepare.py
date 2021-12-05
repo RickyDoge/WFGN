@@ -99,4 +99,3 @@ if __name__ == '__main__':
                 out_dir='D:\\Training Dataset\\FurGenTMP\\2333', repeat=2)
     '''
     # show_bbox(Image.open(r'D:\Training Dataset\FurGenTMP\新建文件夹\yao.jpg').convert('RGB'))
-

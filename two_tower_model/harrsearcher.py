@@ -1,7 +1,6 @@
 import cv2
 
 
-
 class HarrAdaBoostModel(object):
     def __init__(self, xml_dir):
         self.face_detector = cv2.CascadeClassifier(xml_dir)
@@ -17,7 +16,7 @@ class HarrAdaBoostModel(object):
         cv2.imshow('dat', img)
         cv2.waitKey(0)
 
+
 if __name__ == '__main__':
     model = HarrAdaBoostModel(r'D:\Project\PyCharmProjects\WFGN\weight\haarcascade_frontalface_default.xml')
     model.show(r'D:\Training Dataset\FurGen\2\other (35).jpeg')
-

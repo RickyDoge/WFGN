@@ -19,7 +19,7 @@ class ObjectDetectionDataset(object):
         fdir = self.files[idx]
         img = self.transform(Image.open(fdir).convert('RGB'))
         bboxs = extract_bbox(img.transpose(0, 2).transpose(0, 1))
-        return self.construct_iterator([(img[:, y:y+h, x:x+w], (x, y, w, h), fdir) for (x, y, w, h) in bboxs])
+        return self.construct_iterator([(img[:, y:y + h, x:x + w], (x, y, w, h), fdir) for (x, y, w, h) in bboxs])
 
     def construct_iterator(self, candidate_imgs):  # 构造迭代器
         for img, (x, y, w, h), fdir in candidate_imgs:
